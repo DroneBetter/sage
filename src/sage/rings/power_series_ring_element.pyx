@@ -1730,14 +1730,16 @@ cdef class PowerSeries(AlgebraElement):
         P = self._parent
         if not P.base_ring().has_coerce_map_from(R):
             a = a.change_ring(R)
-        half = ~R(2)
 
+        half = ~R(2)
         s = a.parent()([s])
+        s = ~s
+
         for cur_prec in sage.misc.misc.newton_method_sizes(prec)[1:]:
             (<PowerSeries>s)._prec = cur_prec
-            s = half * (s + a/s)
+            s = half * (3*s - a*s._power_trunc(3, cur_prec))
 
-        ans = s
+        ans = s * a
         if val != 0:
             ans *= P.gen(0) ** (val // 2)
         if test_exact and ans.degree() < prec/2:
