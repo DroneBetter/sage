@@ -11420,7 +11420,7 @@ cdef class Polynomial(CommutativePolynomial):
             mp1 = m + 1
             for i in newton_method_sizes(prec):
                 q = mi * (mp1 * q - p._mul_trunc_(q._power_trunc(mp1, i), i))
-            return q._mul_trunc_(p,prec) if m == 1 else q.inverse_series_trunc(prec)
+            return q._mul_trunc_(p,prec) if m == 2 else q.inverse_series_trunc(prec)
 
     @coerce_binop
     def divides(self, p):
